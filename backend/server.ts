@@ -23,8 +23,8 @@ app.get("/api/chat", (req: any, res: { send: (arg0: any) => void; }) => {
 });
 
 app.get("/api/chat/:id", (req: { params: { id: any; }; }, res: { send: (arg0: any) => void; }) => {
-  console.log(req.params.id);
-  const singleChat = chats.find((c: { _id: any; }) => c._id === req.params.id);
+  console.log(req.params.id); //여기서 param을 찾으면 id가 나온다. url에 넣어준것!
+  const singleChat = chats.find((c: { _id: any; }) => c._id === req.params.id); //정크 데이터에서 잘 오나 확인 
   res.send(singleChat);
 });
 
