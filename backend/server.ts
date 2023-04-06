@@ -10,7 +10,7 @@ const app = express(); //express함수를 app 에 넣어서 서버에 넣어버�
 const server = http.createServer(app); //http.createServer((req,res)=>{ ex extensions .txt .png 지정해주고, 라우팅도 하나하나 완전설정으로 간다})
 const io = new Server(server);
 connectDB();
-
+import userRoutes from "./routes/userRoutes";
 
 
 //express의 get 으로 라우팅
@@ -27,6 +27,8 @@ app.get("/api/chat/:id", (req: { params: { id: any; }; }, res: { send: (arg0: an
   const singleChat = chats.find((c: { _id: any; }) => c._id === req.params.id); //정크 데이터에서 잘 오나 확인 
   res.send(singleChat);
 });
+
+app.use("/api/user", userRoutes);
 
 //Set static folder
 app.use(express.static(path.join(__dirname, "public")));
