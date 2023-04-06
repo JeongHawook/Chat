@@ -1,11 +1,14 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
+import bcrypt from "bcryptjs";
 
 export interface UserDocument extends Document{
     name:string;
     email:string;
     password: string;
     picture:string;
+    matchPassword(enteredPassword: string): Promise<boolean>;
 }
+
 
 const userSchema: Schema<UserDocument> = new mongoose.Schema(
     {
@@ -19,6 +22,22 @@ const userSchema: Schema<UserDocument> = new mongoose.Schema(
     }
 
 )
+userSchema.methods.matchPassword = async function (
+  enteredPassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
-const user:Model<UserDocument>= mongoose.model('user',userSchema)
-export default user;
+//b4 saving
+userSchema.pre('save', async function (next) {
+    //이미 hash 인가? 확인?
+    if(!this.isModified('password')){
+        next();
+    }
+    const salt = await bcrypt.genSalt(5);
+    this.password = await bcrypt.hash(this.password,salt);
+})
+
+const User:Model<UserDocument>= mongoose.model('User',userSchema);
+
+export default User;

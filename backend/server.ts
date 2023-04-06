@@ -12,6 +12,8 @@ const io = new Server(server);
 connectDB();
 import userRoutes from "./routes/userRoutes";
 
+//accept json Data
+app.use(express.json());
 
 //express의 get 으로 라우팅
 app.get("/", (req: any, res: { send: (arg0: string) => void; }) => {
@@ -27,7 +29,7 @@ app.get("/api/chat/:id", (req: { params: { id: any; }; }, res: { send: (arg0: an
   const singleChat = chats.find((c: { _id: any; }) => c._id === req.params.id); //정크 데이터에서 잘 오나 확인 
   res.send(singleChat);
 });
-
+//유저에대한 모든 route
 app.use("/api/user", userRoutes);
 
 //Set static folder
