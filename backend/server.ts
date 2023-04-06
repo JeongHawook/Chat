@@ -4,12 +4,12 @@ import http from "http"; //docs 노드
 import dotenv from "dotenv";
 dotenv.config();
 import { Server} from "socket.io";
-
+import connectDB from "./config/db";
+import chats  from "./data/data.js";
 const app = express(); //express함수를 app 에 넣어서 서버에 넣어버린다 ->
 const server = http.createServer(app); //http.createServer((req,res)=>{ ex extensions .txt .png 지정해주고, 라우팅도 하나하나 완전설정으로 간다})
-
 const io = new Server(server);
-import chats  from "./data/data.js";
+connectDB();
 
 
 
@@ -58,4 +58,5 @@ console.log(path.join(__dirname));
 
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`)
+);
